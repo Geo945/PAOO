@@ -7,6 +7,8 @@
 
 .idea
 
+.
+
 # Precompiled Headers
 *.gch
 *.pch
