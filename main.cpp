@@ -2,34 +2,52 @@
 
 using namespace std;
 
-int main ()
-{
-    int j, i,temp;
-    int a[100];
-    int n;
+enum Sex {
+    'M', 'F'
+};
 
-    cout<<"n: ";
-    cin>>n;
+class Customer {
+private:
+    std::string firstName;
+    std::string lastName;
+    Sex sex;
+    int age;
+    int birthYear;
+    int birthMonth;
+    int birthDay;
 
-    for(i=0;i<n;i++){
-        cin>>a[i];
+public:
+    Customer(
+            const std::string &firstName,
+            const std::string &lastName,
+            const Sex sex,
+            const int age,
+            const int birthYear,
+            const int birthMonth,
+            const int birthDay
+    ){
+        firstName(firstName);
+        lastName(lastName);
+        sex(sex);
+        age(age);
+        birthYear(birthYear);
+        birthMonth(birthMonth);
+        birthDay(birthDay);
     }
 
-    for(i = 0; i<n; i++) {
-        for(j = i+1; j<n; j++)
-        {
-            if(a[j] < a[i]) {
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
-            }
-        }
+    toString(){
+        cout<<endl<<"firstName: "<<firstName;
+        cout<<endl<<"lastName: "<<lastName;
+        cout<<endl<<"sex: "<<sex;
+        cout<<endl<<"age: "<<age;
+        cout<<endl<<"birthYear: "<<birthYear;
+        cout<<endl<<"birthMonth: "<<birthMonth;
+        cout<<endl<<"birthDay: "<<birthDay;
+        cout<<endl;
     }
+};
 
-    cout <<"Sorting result\n";
-    for(i = 0; i<n; i++) {
-        cout <<a[i]<<"\t";
-    }
-
+int main() {
+    Customer customer("Alkio", "DeyuV", 'M', 34, 2000, 10, 23);
     return 0;
 }
