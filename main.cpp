@@ -36,6 +36,32 @@ UPTUniversity& UPT() {
     return upt;
 }
 
+class Phone {
+private:
+    std::string phone;
+    std::string number;
+public:
+    Phone(){};
+    Phone(const std::string phone, const std::string number);
+    std::string getNumber();
+    std::string getPhone();
+
+};
+
+Phone::Phone(const std::string phone, const std::string number)
+    :phone(phone),
+    number(number)
+{}
+
+std::string Phone::getNumber(){
+    return number;
+}
+
+std::string Phone::getPhone(){
+    return phone;
+}
+
+
 class StudentUPT {
 private:
     std::string firstName;
@@ -45,6 +71,7 @@ private:
     int birthYear;
     int birthMonth;
     int birthDay;
+    Phone *phone = new Phone("Samsung", "0727337520");
 
 public:
     // Constructor
@@ -64,6 +91,9 @@ StudentUPT::~StudentUPT() {};
 
 // copy assignment operator implementation
 StudentUPT &StudentUPT::operator=(const StudentUPT &stud) {
+
+    if(this == &stud) return *this;
+
     firstName =  stud.firstName;
     lastName =  stud.lastName;
     sex = stud.sex;
@@ -71,6 +101,10 @@ StudentUPT &StudentUPT::operator=(const StudentUPT &stud) {
     birthYear = stud.birthYear;
     birthMonth = stud.birthMonth;
     birthDay = stud.birthDay;
+
+    Phone *phn = stud.phone;
+    phone = new Phone(*stud.phone);
+    delete phn;
 
     return *this;
 };
@@ -95,6 +129,7 @@ StudentUPT::StudentUPT(const StudentUPT &stud) {
     birthYear = stud.birthYear;
     birthMonth = stud.birthMonth;
     birthDay = stud.birthDay;
+    phone = stud.phone;
 }
 
 void StudentUPT::toString(){
@@ -106,11 +141,43 @@ void StudentUPT::toString(){
     cout<<endl<<"birthMonth: "<<birthMonth;
     cout<<endl<<"birthDay: "<<birthDay;
     cout<<endl<<"University email: "<<UPT().getEmail();
+    cout<<endl<<phone->getPhone()<<" "<<"phone: "<<phone->getNumber();
+}
+
+class ScholarshipStudentUpt: public StudentUPT {
+private:
+    int scholarshipAmount;
+
+public:
+    ScholarshipStudentUpt(const StudentUPT &stud, const int scholarshipAmount);
+    ScholarshipStudentUpt& operator=(const ScholarshipStudentUpt &stud);
+    void toString();
+};
+
+ScholarshipStudentUpt::ScholarshipStudentUpt(const StudentUPT &stud, const int scholarshipAmount)
+    :StudentUPT(stud),
+    scholarshipAmount(scholarshipAmount)
+{}
+
+ScholarshipStudentUpt& ScholarshipStudentUpt::operator=(const ScholarshipStudentUpt &stud) {
+    if(this == &stud) return *this;
+
+    StudentUPT::operator=(stud);
+    scholarshipAmount = stud.scholarshipAmount;
+
+    return *this;
+}
+
+void ScholarshipStudentUpt::toString() {
+    StudentUPT::toString();
+    cout<<endl;
+    cout<<"Scholar ship amount: "<<scholarshipAmount;
     cout<<endl;
 }
 
+
 int main() {
-    StudentUPT studentUpt("Johnutule", "Ciocanim", M, 34, 2000, 10, 23);
+    StudentUPT studentUpt("firstName", "lastName", M, 34, 2000, 10, 23);
     StudentUPT studentUpt2(studentUpt);
     StudentUPT studentUpt3 = studentUpt2;
 
@@ -119,11 +186,19 @@ int main() {
     studentUpt2.toString();
     cout<<endl;
     studentUpt3.toString();
+    cout<<endl;
 
     UPTUniversity university("UPT", "email@yahoo.com");
     // Compile error pentru ca am exclus crearea de copy constructor;
     // Putem face asta si la execution time daca declaram direct metoda private in clasa respectiva fara sa extidenm clasa Uncopyable
     // UPTUniversity university1 = university
+
+    ScholarshipStudentUpt scholarshipStudentUpt(studentUpt, 999);
+    scholarshipStudentUpt.toString();
+    cout<<endl;
+
+    ScholarshipStudentUpt scholarshipStudentUpt1 = scholarshipStudentUpt;
+    scholarshipStudentUpt1.toString();
 
     return 0;
 }
