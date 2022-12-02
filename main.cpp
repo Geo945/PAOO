@@ -71,11 +71,12 @@ private:
     int birthYear;
     int birthMonth;
     int birthDay;
-    Phone *phone = new Phone("Samsung", "0727337520");
+//    Phone *phone = new Phone("Samsung", "0727337520");
+    Phone *phone;
 
 public:
     // Constructor
-    StudentUPT(const std::string &firstName, const std::string &lastName, const Sex sex, const int age, const int birthYear, const int birthMonth,const int birthDay);
+    StudentUPT(const std::string &firstName, const std::string &lastName, const Sex sex, const int age, const int birthYear, const int birthMonth, const int birthDay, const std::string phone, const std::string number);
     // Copy Constructor
     StudentUPT(const StudentUPT &stud);
     // Destructor
@@ -110,14 +111,15 @@ StudentUPT &StudentUPT::operator=(const StudentUPT &stud) {
 };
 
 // Constructor implementation
-StudentUPT::StudentUPT(const std::string &firstName, const std::string &lastName, const Sex sex, const int age, const int birthYear, const int birthMonth,const int birthDay)
+StudentUPT::StudentUPT(const std::string &firstName, const std::string &lastName, const Sex sex, const int age, const int birthYear, const int birthMonth, const int birthDay,  const std::string phone, const std::string number)
         :firstName(firstName),
          lastName(lastName),
          sex(sex),
          age(age),
          birthYear(birthYear),
          birthMonth(birthMonth),
-         birthDay(birthDay)
+         birthDay(birthDay),
+         phone(new Phone(phone, number))
 {}
 
 // Copy constructor implementation
@@ -177,7 +179,7 @@ void ScholarshipStudentUpt::toString() {
 
 
 int main() {
-    StudentUPT studentUpt("firstName", "lastName", M, 34, 2000, 10, 23);
+    StudentUPT studentUpt("firstName", "lastName", M, 34, 2000, 10, 23, "Samsung", "07namcartela");
     StudentUPT studentUpt2(studentUpt);
     StudentUPT studentUpt3 = studentUpt2;
 
