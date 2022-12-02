@@ -179,7 +179,7 @@ void ScholarshipStudentUpt::toString() {
 
 
 int main() {
-    StudentUPT studentUpt("firstName", "lastName", M, 34, 2000, 10, 23, "Samsung", "07namcartela");
+    StudentUPT studentUpt("firstName", "lastName", M, 34, 2000, 10, 23, "Samsung", "0733447529");
     StudentUPT studentUpt2(studentUpt);
     StudentUPT studentUpt3 = studentUpt2;
 
