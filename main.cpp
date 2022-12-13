@@ -45,7 +45,6 @@ public:
     Phone(const std::string phone, const std::string number);
     std::string getNumber();
     std::string getPhone();
-
 };
 
 Phone::Phone(const std::string phone, const std::string number)
@@ -103,7 +102,7 @@ StudentUPT &StudentUPT::operator=(const StudentUPT &stud) {
     birthMonth = stud.birthMonth;
     birthDay = stud.birthDay;
 
-    Phone *phn = stud.phone;
+    Phone *phn = phone;
     phone = new Phone(*stud.phone);
     delete phn;
 
