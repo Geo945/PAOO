@@ -1,4 +1,6 @@
 #include<iostream>
+#include <mutex>
+#include <pthread.h>
 
 using namespace std;
 
@@ -45,7 +47,19 @@ public:
     Phone(const std::string phone, const std::string number);
     std::string getNumber();
     std::string getPhone();
+    void createNewPhoneAndPrintIt(const std::string phone, const std::string number);
+    void toString();
 };
+
+void Phone::toString() {
+    cout<<"Phone: "<<phone<<", Number: "<<number<<endl;
+}
+
+Phone* createPhone(const std::string phone, const std::string number) {
+    Phone* phn = new Phone(phone, number);
+
+    return phn;
+}
 
 Phone::Phone(const std::string phone, const std::string number)
     :phone(phone),
@@ -59,7 +73,6 @@ std::string Phone::getNumber(){
 std::string Phone::getPhone(){
     return phone;
 }
-
 
 class StudentUPT {
 private:
@@ -176,6 +189,32 @@ void ScholarshipStudentUpt::toString() {
     cout<<endl;
 }
 
+void createNewPhoneAndPrintIt(const std::string phone, const std::string number) {
+    std::shared_ptr<Phone> phn(createPhone(phone, number));
+
+    cout<<"Number: "<<phn->getNumber()<<", Phone: "<<phn->getNumber()<<endl;
+}
+
+class Lock {
+    public:
+        explicit Lock(pthread_mutex_t pm)
+                : mutexPtr(pm)
+        { pthread_mutex_lock(&mutexPtr); }
+        ~Lock() { pthread_mutex_unlock(&mutexPtr); }
+
+    private:
+        pthread_mutex_t mutexPtr;
+};
+
+void mutexOperations(const std::string phone, const std::string number) {
+    pthread_mutex_t m;
+
+    Lock ml(m);
+
+    createNewPhoneAndPrintIt(phone, number);
+
+    // Destructor is being called automatically when exiting function block scope
+}
 
 int main() {
     StudentUPT studentUpt("firstName", "lastName", M, 34, 2000, 10, 23, "Samsung", "0733447529");
@@ -200,6 +239,11 @@ int main() {
 
     ScholarshipStudentUpt scholarshipStudentUpt1 = scholarshipStudentUpt;
     scholarshipStudentUpt1.toString();
+
+    cout<<endl;
+    createNewPhoneAndPrintIt("Samsung", "0727337520");
+    cout<<endl;
+    mutexOperations("Iphone 13", "0727332222");
 
     return 0;
 }
